@@ -1,9 +1,8 @@
-import logging
-
 from tornado.web import RequestHandler
 from tornado.escape import json_decode
 
 from settings import memcache
+
 
 class PingHandler(RequestHandler):
     EXPIRY = 60  # seconds
@@ -12,7 +11,8 @@ class PingHandler(RequestHandler):
         return 'ip_map_' + ext_ip
 
     def get(self):
-        self.set_header("Access-Control-Allow-Origin", "http://setup.ailurus.ca")
+        self.set_header("Access-Control-Allow-Origin",
+                        "http://setup.ailurus.ca")
         ext_ip = self.request.remote_ip
         int_ip = memcache.get(self.MemcacheKey(ext_ip))
         self.write({

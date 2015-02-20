@@ -7,6 +7,7 @@ from tornado.httpserver import HTTPServer
 
 from handlers import PingHandler, SetupHandler
 from settings import memcache, on_heroku
+from tornado.options import parse_command_line
 
 
 def CreateApplication(debug=False):
@@ -27,7 +28,6 @@ def CreateApplication(debug=False):
         url(r"/ping", PingHandler),
     ])
 
-
     # setup.ailurus.ca
     application.add_handlers(r"setup\.ailurus\.ca", [
         url(r"/", SetupHandler),
@@ -36,6 +36,7 @@ def CreateApplication(debug=False):
     return application
 
 if __name__ == "__main__":
+    parse_command_line()
     port = int(os.environ.get("PORT", 80))
     logging.info("Serving on port " + str(port))
 
