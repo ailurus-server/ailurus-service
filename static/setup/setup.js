@@ -1,12 +1,15 @@
 $(function() {
 
+  $.ajaxSetup({cache:false});
+
   function redirectOnHeartbeat(ipAddr) {
     $.get("http://" + ipAddr + ":18570/_heartbeat")
     .done(function(data){
       if (data.response == 'ok') {
-        redirUrl = "http://" + ipAddr + "/admin";
+        var redirUrl = "http://" + ipAddr + "/admin";
+        var cacheSlug = '?n=' + new Date().getTime();
         console.log("Received heartbeat. Redirecting to " + redirUrl);
-        window.location.replace(redirUrl);
+        window.location.replace(redirUrl + cacheSlug);
       }
     })
     .fail(function() {
